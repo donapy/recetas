@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import Axios from "axios";
 
 export const Homepage = () => {
+  const [search, setSearch] = useState("");
   const navigate = new useNavigate();
   const {
     data: listRecipes,
@@ -18,7 +19,11 @@ export const Homepage = () => {
 
   const fetchListRecipes = async () => {
     try {
-      const result = await Axios.get("http://localhost:8000/api/recipes");
+      let textsearch = { search };
+      const result = await Axios.post(
+        "http://localhost:8000/api/recipe/getLikeRecipes",
+        textsearch
+      );
       console.log(`Datos: ${result.data}`);
       return result.data;
     } catch (error) {

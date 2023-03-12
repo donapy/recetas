@@ -114,7 +114,7 @@ const getRecipes = asyncHandler(async (req, res) => {
 // @access  Public
 const getRecipe = asyncHandler(async (req, res) => {
   try {
-    const recipe = await Recipe.find({ id: req.params.id });
+    const recipe = await Recipe.find({ _id: req.params.id });
 
     if (recipe) {
       res.status(200).json(recipe);
@@ -197,7 +197,10 @@ const deleteRecipe = asyncHandler(async (req, res) => {
 // @access  Public
 const getLikeRecipes = asyncHandler(async (req, res) => {
   try {
-    const search = req.body.search;
+    let search = req.body.search;
+    // console.log(search);
+    // search.length === 0 && (search = "c");
+    // console.log(search);
     const recipes = await Recipe.find({
       name: { $regex: search, $options: "i" },
     });
