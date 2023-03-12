@@ -5,11 +5,13 @@ const bcypt = require("bcryptjs");
 const User = require("../models/users.model");
 
 // @desc    Get User
-// @route   GET /api/user/getUser/:id
+// @route   GET /api/user/getUser/
 // @access  Private
 const getUser = asyncHandler(async (req, res) => {
   try {
-    const user = await User.find({ email: req.params.email }, { password: 0 });
+    const { id } = req.user;
+    console.log(id);
+    const user = await User.find(id, { password: 0 });
 
     if (user) {
       res.status(200).json(user);
@@ -82,7 +84,7 @@ const updateUser = asyncHandler(async (req, res) => {
   try {
     const { id } = req.user;
     console.log(id);
-    const user = await User.findById(id);
+    const user = await User.findById(id, { password: 0 });
 
     if (!user) {
       res.status(400).json({ message: "User not found" });

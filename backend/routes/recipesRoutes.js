@@ -8,6 +8,7 @@ const {
   updateRecipe,
   deleteRecipe,
   getMyRecipes,
+  getLikeRecipes,
 } = require("../controllers/recipesController");
 
 const { protect } = require("../middlewares/authMiddleware");
@@ -17,6 +18,8 @@ router.get("/getRecipes", getRecipes);
 router.get("/getRecipe/:id", getRecipe);
 
 router.get("/getMyRecipes", protect, getMyRecipes);
+
+router.post("/getLikeRecipes", getLikeRecipes);
 
 router.post("/newRecipe", protect, newRecipe);
 
