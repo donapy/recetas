@@ -1,11 +1,11 @@
 const express = require("express");
 const router = express.Router();
 const {
+  newRecipe,
   getRecipes,
   getRecipe,
-  newRecipe,
-  deleteRecipe,
   updateRecipe,
+  deleteRecipe,
 } = require("../controllers/recipesController-Diana");
 
 const { protect } = require("../middlewares/authMiddleware");

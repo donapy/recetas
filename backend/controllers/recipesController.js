@@ -105,3 +105,31 @@ const updateRecipe = asyncHandler(async (req, res) => {
     res.status(500).json({ message: "Internal Error" });
   }
 });
+
+// @desc    Delete Recipe
+// @route   DELETE /api/recipe/deleteRecipe/:id
+// @access  Private
+const deleteRecipe = asyncHandler(async (req, res) => {
+  try {
+    const recipe = await Usuario.findById(req.params);
+
+    if (!recipe) {
+      res.status(400).json({ message: "Recipe not found" });
+    }
+
+    await recipe.remove();
+
+    res.status(200).json({ id: req.params });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Internal Error" });
+  }
+});
+
+module.exports = {
+  newRecipe,
+  getRecipes,
+  getRecipe,
+  updateRecipe,
+  deleteRecipe,
+};
