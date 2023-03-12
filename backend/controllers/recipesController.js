@@ -2,7 +2,7 @@ const asyncHandler = require("express-async-handler");
 const Recipe = require("../models/recipes.model");
 const upload = require("../configs/multer.config");
 
-// @desc    New Recipe
+// @desc    New Recipe with Multer
 // @route   GET /api/recipe/newRecipe
 // @access  Private
 const newRecipe = asyncHandler(async (req, res) => {
@@ -36,6 +36,7 @@ const newRecipe = asyncHandler(async (req, res) => {
         tags,
         // save the image name in the database
         image: req.file.filename,
+        //_user: req.params.id,
         _user: req.params.id,
       })
         .then((newRecipe) => res.json(newRecipe))
@@ -44,6 +45,51 @@ const newRecipe = asyncHandler(async (req, res) => {
           res.status(500).json({ message: "Something went wrong", error: err });
         });
     });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Internal Error" });
+  }
+});
+
+// @desc    New Recipe without Multer
+// @route   GET /api/recipe/newRecipe2
+// @access  Private
+const newRecipe2 = asyncHandler(async (req, res) => {
+  try {
+    const { id } = req.user;
+    const {
+      name,
+      image,
+      portions,
+      cookingTime,
+      importantIngredients,
+      secondaryIngredients,
+      steps,
+      tags,
+    } = req.body;
+
+    const recipe = await Recipe.create({
+      name,
+      image,
+      portions,
+      cookingTime,
+      importantIngredients,
+      secondaryIngredients,
+      steps,
+      tags,
+      user: id,
+    });
+
+    if (recipe) {
+      return res.status(201).json({
+        success: true,
+        _id: recipe.id,
+      });
+    } else {
+      return res
+        .status(400)
+        .send({ message: "Error creating the recipe, try again" });
+    }
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Internal Error" });
@@ -69,6 +115,26 @@ const getRecipes = asyncHandler(async (req, res) => {
 const getRecipe = asyncHandler(async (req, res) => {
   try {
     const recipe = await Recipe.find({ id: req.params.id });
+
+    if (recipe) {
+      res.status(200).json(recipe);
+    } else {
+      res.status(404).json({ message: "Recipe not found" });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Internal Error" });
+  }
+});
+
+// @desc    Get My Recipe
+// @route   GET /api/user/getRecipe/:id
+// @access  Private
+const getMyRecipes = asyncHandler(async (req, res) => {
+  try {
+    const { id: iduser } = req.user;
+    console.log(id);
+    const recipe = await Recipe.find({ user: iduser });
 
     if (recipe) {
       res.status(200).json(recipe);
@@ -111,7 +177,7 @@ const updateRecipe = asyncHandler(async (req, res) => {
 // @access  Private
 const deleteRecipe = asyncHandler(async (req, res) => {
   try {
-    const recipe = await Usuario.findById(req.params);
+    const recipe = await Recipe.findById(req.params);
 
     if (!recipe) {
       res.status(400).json({ message: "Recipe not found" });
@@ -128,8 +194,10 @@ const deleteRecipe = asyncHandler(async (req, res) => {
 
 module.exports = {
   newRecipe,
+  newRecipe2,
   getRecipes,
   getRecipe,
+  getMyRecipes,
   updateRecipe,
   deleteRecipe,
 };
