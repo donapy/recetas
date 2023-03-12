@@ -98,7 +98,7 @@ const newRecipe2 = asyncHandler(async (req, res) => {
 
 // @desc    Get Recipes
 // @route   GET /api/recipe/getRecipes
-// @access  Private
+// @access  Public
 const getRecipes = asyncHandler(async (req, res) => {
   try {
     const recipes = await Recipe.find();
@@ -111,7 +111,7 @@ const getRecipes = asyncHandler(async (req, res) => {
 
 // @desc    Get Recipe
 // @route   GET /api/user/getRecipe/:id
-// @access  Private
+// @access  Public
 const getRecipe = asyncHandler(async (req, res) => {
   try {
     const recipe = await Recipe.find({ id: req.params.id });
@@ -127,8 +127,8 @@ const getRecipe = asyncHandler(async (req, res) => {
   }
 });
 
-// @desc    Get My Recipe
-// @route   GET /api/user/getRecipe/:id
+// @desc    Get My Recipes
+// @route   GET /api/user/getMyRecipes/
 // @access  Private
 const getMyRecipes = asyncHandler(async (req, res) => {
   try {
@@ -148,7 +148,7 @@ const getMyRecipes = asyncHandler(async (req, res) => {
 });
 
 // @desc    Update Recipe
-// @route   PUT /api/recipe/updateRecipe/
+// @route   PUT /api/recipe/updateRecipe/:id
 // @access  Private
 const updateRecipe = asyncHandler(async (req, res) => {
   try {
@@ -192,6 +192,22 @@ const deleteRecipe = asyncHandler(async (req, res) => {
   }
 });
 
+// @desc    Get Like Recipes for Search Recipes
+// @route   GET /api/recipe/getLikeRecipes
+// @access  Public
+const getLikeRecipes = asyncHandler(async (req, res) => {
+  try {
+    const search = req.body.search;
+    const recipes = await Recipe.find({
+      name: { $regex: search, $options: "i" },
+    });
+    res.status(200).json(recipes);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Internal Error" });
+  }
+});
+
 module.exports = {
   newRecipe,
   newRecipe2,
@@ -200,4 +216,5 @@ module.exports = {
   getMyRecipes,
   updateRecipe,
   deleteRecipe,
+  getLikeRecipes,
 };
