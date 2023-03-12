@@ -1,12 +1,14 @@
 const express = require("express");
 const router = express.Router();
 const {
+  newRecipe,
+  newRecipe2,
   getRecipes,
   getRecipe,
-  newRecipe,
-  deleteRecipe,
   updateRecipe,
-} = require("../controllers/recipesController-Diana");
+  deleteRecipe,
+  getMyRecipes,
+} = require("../controllers/recipesController");
 
 const { protect } = require("../middlewares/authMiddleware");
 
@@ -14,10 +16,14 @@ router.get("/getRecipes", getRecipes);
 
 router.get("/getRecipe/:id", getRecipe);
 
-router.post("/newRecipe", newRecipe);
+router.get("/getMyRecipes", protect, getMyRecipes);
 
-router.put("/updateRecipe/:id", updateRecipe);
+router.post("/newRecipe", protect, newRecipe);
 
-router.delete("/deleteRecipe/:id", deleteRecipe);
+router.post("/newRecipe2", protect, newRecipe2);
+
+router.put("/updateRecipe/:id", protect, updateRecipe);
+
+router.delete("/deleteRecipe/:id", protect, deleteRecipe);
 
 module.exports = router;
