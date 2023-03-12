@@ -16,5 +16,5 @@ app.use("/api/recipe", require("./routes/recipesRoutes"));
 app.use("/api/user", require("./routes/usersRoutes"));
 
 app.listen(port, () => {
-  console.log(`Backend running on ${port}`.cyan);
+  console.log(`Backend running on ${port}`);
 });
