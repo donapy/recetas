@@ -13,7 +13,7 @@ const {
   saveNewRecipe,
 } = require("../controllers/usersController");
 
-const { protect } = require("../middleware/authMiddleware");
+const { protect } = require("../middlewares/authMiddleware");
 
 router.get("/getUsuarios", protect, getUsers);
 
