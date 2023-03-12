@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 
 export const Navbar = () => {
-  const isLogged = true;
+  const isLogged = false;
 
   const navigate = new useNavigate();
 

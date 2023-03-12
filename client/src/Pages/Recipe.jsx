@@ -18,7 +18,9 @@ export const Recipe = () => {
 
   const fetchRecipe = async () => {
     try {
-      const result = await Axios.get("http://localhost:8000/api/recipes/" + id);
+      const result = await Axios.get(
+        "http://localhost:8000/api/recipe/getRecipe/" + id
+      );
       console.log(`Datos: ${result.data}`);
       return result.data;
     } catch (error) {
