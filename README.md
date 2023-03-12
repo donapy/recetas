@@ -29,7 +29,7 @@ Se utilizo las siguientes librerias:
 Ruta Base: localhost:8000/
 
 - User - /api/user/
-	* getUsuarios: obtiene todos los datos(excepto password) de todos los usuarios (ruta no necesaria) - protegido
+	* getUsuarios - obtiene todos los datos(excepto password) de todos los usuarios (ruta no necesaria) - protegido
 	* getUsuario - obtiene todos los datos(excepto password) del usuario del token - protegido
 	* newUsuario - registra un nuevo usuario
 	* updateUsuario - actualiza los datos del usuario del token - protegido
