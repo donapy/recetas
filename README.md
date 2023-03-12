@@ -19,3 +19,5 @@ Este proyecto se trata de una página web para encontrar recetas con ingrediente
 ### Wireframe del proyecto:
 
 https://www.figma.com/file/GBXyndw40CSfYQiCfbE2WY/Cooking-Site-Wireframe?node-id=0%3A1&t=giwIKZTexoi789xS-1
+
+--que termine ya el cursooooooooooo
