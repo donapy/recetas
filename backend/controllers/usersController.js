@@ -174,7 +174,7 @@ const isLogged = asyncHandler(async (req, res) => {
 });
 
 // @desc    logOut User
-// @route   GET /api/user/isLogged
+// @route   GET /api/user/logOut
 // @access  Private
 const logOut = asyncHandler(async (req, res) => {
   try {
