@@ -9,7 +9,7 @@ const User = require("../models/users.model");
 // @access  Private
 const getUser = asyncHandler(async (req, res) => {
   try {
-    const user = await User.find({ email: req.params.email });
+    const user = await User.find({ email: req.params.email }, { password: 0 });
 
     if (user) {
       res.status(200).json(user);
@@ -27,7 +27,7 @@ const getUser = asyncHandler(async (req, res) => {
 // @access  Private
 const getUsers = asyncHandler(async (req, res) => {
   try {
-    const users = await User.find();
+    const users = await User.find({}, { password: 0 });
     res.status(200).json(users);
   } catch (error) {
     console.log(error);
@@ -45,7 +45,7 @@ const newUser = asyncHandler(async (req, res) => {
     const userExist = await User.findOne({ email });
     if (userExist) {
       return res.status(400).json({
-        message: "Error, the User/email already exists",
+        message: "Error, the user/email already exists",
       });
     }
 
@@ -63,8 +63,6 @@ const newUser = asyncHandler(async (req, res) => {
       return res.status(201).json({
         success: true,
         _id: user.id,
-        name: user.name,
-        email: user.email,
       });
     } else {
       return res
