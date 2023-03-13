@@ -1,13 +1,35 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@font-face {
+  font-family: "Cormorant";
+  font-style: normal;
+  font-weight: 400, 700;
+  src: local("Cormorant"),
+    local("Cormorant Infant")
+      url("https://fonts.googleapis.com/css2?family=Cormorant&family=Cormorant+Infant:ital,wght@0,700;1,400&display=swap");
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+body {
+  font-family: Cormorant, Cormorant Infant, sans-serif;
+}
+
+.my-navbar {
+  background-color: #ffd3b5;
+  font-size: xx-large;
+}
+
+.icon {
+  height: 45px;
+}
+
+.nav-text {
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+
+.register-container {
+  max-width: 40%;
+  /* padding-right: 20%; */
+  /* justify-content: end; */
 }
