@@ -1,8 +1,9 @@
-import React, {useState} from "react";
-import {useNavigate} from "react-router-dom";
-import {Label, TextInput, Button, Toast} from "flowbite-react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Label, TextInput, Button, Toast } from "flowbite-react";
 import logo from "../assets/logo.png";
-import {HiExclamation} from "react-icons/hi";
+import axios from "axios";
+import { HiExclamation } from "react-icons/hi";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -11,30 +12,48 @@ const Login = () => {
 
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // const user = {email, password};
+    const inputs = { email, password };
     // axios
     //   .post("http://localhost:8000/api/login", user, {
     //     withCredentials: true,
     //   })
     //   .then((res) => {
     //     console.log(res);
+
     const validationErrors = {};
     if (!email) {
-      validationErrors.email = {message: "Email is required"};
+      validationErrors.email = { message: "Email is required" };
     }
     if (!password) {
-      validationErrors.password = {message: "Password is required"};
+      validationErrors.password = { message: "Password is required" };
     }
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
       return;
     }
-    setErrors({});
-    setTimeout(() => {
-      navigate(`/`);
-    }, 2000); // wait for 2 seconds before navigating to the main page
+
+    try {
+      const result = await axios.post(
+        `http://localhost:8000/api/user/loginUsuario/`,
+        inputs,
+        {
+          withCredentials: true,
+        }
+      );
+      if (result.status === 200) {
+        alert(`Login Successful`);
+        navigate("/");
+      }
+    } catch (error) {
+      error.response && alert(error.response.data.message);
+    }
+    // setErrors({});
+
+    // setTimeout(() => {
+    //   navigate(`/`);
+    // }, 2000); // wait for 2 seconds before navigating to the main page
     //   })
     //   .catch((err) => {
     //     console.log(err.response.data);
