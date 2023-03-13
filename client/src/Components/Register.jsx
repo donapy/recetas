@@ -1,7 +1,7 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import axios from "axios";
-import {useNavigate} from "react-router-dom";
-import {Label, TextInput, Button} from "flowbite-react";
+import { useNavigate } from "react-router-dom";
+import { Label, TextInput, Button } from "flowbite-react";
 import logo from "../assets/logo.png";
 
 const Register = () => {
@@ -13,16 +13,19 @@ const Register = () => {
 
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const newUser = {name, email, password, confirmPassword};
-    axios
-      .post("http://localhost:8000/api/register", newUser, {
-        withCredentials: true,
-      })
+    const newUser = { name, email, password, confirmPassword };
+    await axios
+      .post(
+        "http://localhost:8000/api/user/newUsuario",
+        newUser //, {withCredentials: true}
+      )
       .then((res) => {
         console.log(res);
-        navigate("/login");
+        if (res.status === 201) {
+          navigate("/login");
+        }
       })
       .catch((err) => {
         console.log(err.response.data);

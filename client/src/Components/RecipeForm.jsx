@@ -1,7 +1,7 @@
-import {useState} from "react";
+import { useState } from "react";
 import axios from "axios";
-import {TextInput, Label, Button} from "flowbite-react";
-import {useNavigate} from "react-router-dom";
+import { TextInput, Label, Button } from "flowbite-react";
+import { useNavigate } from "react-router-dom";
 
 const RecipeForm = () => {
   const [title, setTitle] = useState("");
@@ -30,16 +30,22 @@ const RecipeForm = () => {
     event.preventDefault();
     console.log("Submitting form...");
     axios
-      .post(" http://localhost:7900/api/recipes/create", {
-        title,
-        image,
-        servings,
-        cookTime,
-        importantIngredients,
-        secondaryIngredients,
-        steps,
-        tags,
-      })
+      .post(
+        " http://localhost:8000/api/recipe/newRecipe2",
+        {
+          name: title,
+          image,
+          portions: servings,
+          cookingTime: cookTime,
+          importantIngredients,
+          secondaryIngredients,
+          steps,
+          tags,
+        },
+        {
+          withCredentials: true,
+        }
+      )
       .then((res) => {
         console.log(res);
         console.log("Recipe added successfully!");

@@ -193,7 +193,7 @@ const deleteRecipe = asyncHandler(async (req, res) => {
 });
 
 // @desc    Get Like Recipes for Search Recipes
-// @route   GET /api/recipe/getLikeRecipes
+// @route   POST /api/recipe/getLikeRecipes
 // @access  Public
 const getLikeRecipes = asyncHandler(async (req, res) => {
   try {
