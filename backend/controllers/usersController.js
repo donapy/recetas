@@ -191,9 +191,14 @@ const logOut = asyncHandler(async (req, res) => {
 // @access  Private
 const getSavedRecipes = asyncHandler(async (req, res) => {
   try {
-    const { id } = req.user;
-    const user = await User.findById(id).populate("savedrecipes");
-    console.log(`id: ${id}\nUserData: ${user}`);
+    const iduser = req.user._id;
+    const user = await User.findById(iduser, {
+      _id: 0,
+      name: 0,
+      password: 0,
+      email: 0,
+    }).populate("savedrecipes");
+    //console.log(`id: ${iduser}\nUserData: ${user}`);
     res.status(200).json(user);
   } catch (error) {
     console.log(error);
@@ -206,10 +211,12 @@ const getSavedRecipes = asyncHandler(async (req, res) => {
 // @access  Private
 const saveNewRecipe = asyncHandler(async (req, res) => {
   try {
-    const { id } = req.user;
-    const user = await User.findById(id, { id: 0, password: 0 });
-    user.savedrecipes.push(req.id);
-    const updatedUser = await User.findByIdAndUpdate(id, user, {
+    const iduser = req.user._id;
+    //console.log(iduser);
+    const user = await User.findById(iduser, { id: 0, password: 0 });
+    user.savedrecipes.push(req.body.id);
+    //console.log(user);
+    const updatedUser = await User.findByIdAndUpdate(iduser, user, {
       new: true,
     });
     if (updatedUser) {
@@ -217,7 +224,6 @@ const saveNewRecipe = asyncHandler(async (req, res) => {
     } else {
       res.status(400).json({
         message: "Error trying to updated the user",
-        error: updatedUser,
       });
     }
   } catch (error) {
