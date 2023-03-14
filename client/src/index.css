@@ -33,3 +33,7 @@ body {
   /* padding-right: 20%; */
   /* justify-content: end; */
 }
+
+.font-bold {
+  font-weight: bold;
+}

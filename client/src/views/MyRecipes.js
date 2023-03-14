@@ -6,6 +6,7 @@ function MyRecipes() {
     <div>
       <Navibar />
       <br />
+      <h1 className="font-bold text-3xl text-center py-4">My Recipes</h1>
       <UserRecipes />
     </div>
   );

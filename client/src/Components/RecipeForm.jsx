@@ -1,6 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
-import { TextInput, Label, Button } from "flowbite-react";
+import { TextInput, Label, Button, Card, Textarea } from "flowbite-react";
 import { useNavigate } from "react-router-dom";
 
 const RecipeForm = () => {
@@ -58,12 +58,11 @@ const RecipeForm = () => {
   };
 
   return (
-    <div className="flex justify-center items-center h-screen mx-auto py-auto">
-      <form onSubmit={handleSubmit} className="register-container">
-        <h1 className="text-2xl font-bold text-center py-4">Add a Recipe</h1>
+    <Card className="max-w-screen-md mx-auto">
+      <form onSubmit={handleSubmit}>
         <div className="text-1xl pb-2">
           <div className="mb-1 block">
-            <Label htmlFor="title" value="Title" />
+            <Label className="font-bold" htmlFor="title" value="Title" />
           </div>
           <TextInput
             id="title"
@@ -75,18 +74,18 @@ const RecipeForm = () => {
         </div>
         <div className="text-1xl pb-2">
           <div className="mb-1 block">
-            <Label htmlFor="image" value="Image" />
+            <Label className="font-bold" htmlFor="image" value="Image" />
           </div>
-          <input
+          <TextInput
             id="image"
-            type="url"
+            type="text"
             placeholder="Show us your food!"
             onChange={(e) => setImage(e.target.value)}
           />
         </div>
         <div className="text-1xl pb-2">
           <div className="mb-1 block">
-            <Label htmlFor="servings" value="Servings" />
+            <Label className="font-bold" htmlFor="servings" value="Servings" />
           </div>
           <TextInput
             id="servings"
@@ -98,7 +97,11 @@ const RecipeForm = () => {
         </div>
         <div className="text-1xl pb-2">
           <div className="mb-1 block">
-            <Label htmlFor="cookTime" value="Cook Time" />
+            <Label
+              className="font-bold"
+              htmlFor="cookTime"
+              value="Cooking Time in minutes"
+            />
           </div>
           <TextInput
             id="cookTime"
@@ -111,11 +114,12 @@ const RecipeForm = () => {
         <div className="text-1xl pb-2">
           <div className="mb-1 block">
             <Label
+              className="font-bold"
               htmlFor="importantIngredients"
-              value="Important Ingredients"
+              value="Core Ingredients"
             />
           </div>
-          {importantIngredients.map((ingredient, index) => (
+          {importantIngredients?.map((ingredient, index) => (
             <TextInput
               key={index}
               id="importantIngredients"
@@ -132,8 +136,9 @@ const RecipeForm = () => {
         <div className="text-1xl pb-2">
           <div className="mb-1 block">
             <Label
+              className="font-bold"
               htmlFor="secondaryIngredients"
-              value="Secondary Ingredients"
+              value="Other Ingredients"
             />
           </div>
           <TextInput
@@ -146,11 +151,15 @@ const RecipeForm = () => {
         </div>
         <div className="text-1xl pb-2">
           <div className="mb-1 block">
-            <Label htmlFor="steps" value="Steps" />
+            <Label
+              className="font-bold"
+              htmlFor="steps"
+              value="How to make it"
+            />
           </div>
-          <TextInput
+          <Textarea
             id="steps"
-            type="text"
+            type="textarea"
             placeholder="Tell us how to make it!"
             required={true}
             onChange={(e) => setSteps(e.target.value)}
@@ -158,7 +167,22 @@ const RecipeForm = () => {
         </div>
         <div className="text-1xl pb-2">
           <div className="mb-1 block">
-            <Label htmlFor="tags" value="Tags" />
+            <Label className="font-bold" htmlFor="tags" value="Tags" />
+          </div>
+          <TextInput
+            id="tags"
+            type="text"
+            placeholder="List your tags here separated by commas"
+            required={true}
+            value={tags.join(", ")}
+            onChange={(e) =>
+              setTags(e.target.value.split(",").map((tag) => tag.trim()))
+            }
+          />
+        </div>
+        {/* <div className="text-1xl pb-2">
+          <div className="mb-1 block">
+            <Label className="font-bold" htmlFor="tags" value="Tags" />
           </div>
           <TextInput
             id="tags"
@@ -167,7 +191,7 @@ const RecipeForm = () => {
             required={true}
             onChange={(e) => setTags(e.target.value)}
           />
-        </div>
+        </div> */}
         <div className="text-1xl pb-2">
           <Button
             type="submit"
@@ -177,7 +201,7 @@ const RecipeForm = () => {
           </Button>
         </div>
       </form>
-    </div>
+    </Card>
   );
 };
 

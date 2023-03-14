@@ -6,6 +6,8 @@ function NewRecipe() {
     <div>
       <Navibar />
       <br />
+      <h1 className="text-2xl font-bold text-center py-4">Add a Recipe</h1>
+      <br />
       <RecipeForm />
     </div>
   );

@@ -132,8 +132,8 @@ const getRecipe = asyncHandler(async (req, res) => {
 // @access  Private
 const getMyRecipes = asyncHandler(async (req, res) => {
   try {
-    const { id: iduser } = req.user;
-    console.log(id);
+    const iduser = req.user._id;
+    console.log(iduser);
     const recipe = await Recipe.find({ user: iduser });
 
     if (recipe) {
@@ -152,18 +152,22 @@ const getMyRecipes = asyncHandler(async (req, res) => {
 // @access  Private
 const updateRecipe = asyncHandler(async (req, res) => {
   try {
-    const { id: iduser } = req.user;
+    //const { id: iduser } = req.user;
     const id = req.params.id;
 
-    const recipe = await Recipe.findById(id);
+    const recipe = await Recipe.findById({ _id: id });
 
     if (!recipe) {
       res.status(400).json({ message: "Recipe not found" });
     }
 
-    const updatedRecipe = await Recipe.findByIdAndUpdate(req.params, req.body, {
-      new: true,
-    });
+    const updatedRecipe = await Recipe.findByIdAndUpdate(
+      { _id: req.params.id },
+      req.body,
+      {
+        new: true,
+      }
+    );
 
     res.status(200).json(updatedRecipe);
   } catch (error) {
@@ -177,13 +181,12 @@ const updateRecipe = asyncHandler(async (req, res) => {
 // @access  Private
 const deleteRecipe = asyncHandler(async (req, res) => {
   try {
-    const recipe = await Recipe.findById(req.params);
-
+    const recipe = await Recipe.findById({ _id: req.params.id });
     if (!recipe) {
       res.status(400).json({ message: "Recipe not found" });
     }
-
-    await recipe.remove();
+    //console.log("TRUEEE");
+    await recipe.deleteOne({ _id: req.params.id });
 
     res.status(200).json({ id: req.params });
   } catch (error) {

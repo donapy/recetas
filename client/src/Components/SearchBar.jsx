@@ -35,7 +35,7 @@ const SearchBar = (props) => {
   return (
     <>
       <form
-        className="search-bar flex gap-4 justify-center mx-auto"
+        className="search-bar flex gap-4 justify-center mx-auto py-6"
         onSubmit={handleSubmit}
       >
         <TextInput

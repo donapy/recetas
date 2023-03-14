@@ -1,5 +1,5 @@
 import Navibar from "../components/Navbar";
-import SweetWhimsicalColors from "../components/Colors";
+// import SweetWhimsicalColors from "../components/Colors";
 import SearchBar from "../components/SearchBar";
 // import ListRecipes from "../components/ListRecipes";
 // import { useState } from "react";
@@ -13,7 +13,7 @@ function Main() {
   return (
     <div>
       <Navibar />
-      <SweetWhimsicalColors />
+      {/* <SweetWhimsicalColors /> */}
       {/* <SearchBar onSearch={handleSearch} /> */}
       <SearchBar />
       {/* <ListRecipes searchResults={searchResults} /> */}
