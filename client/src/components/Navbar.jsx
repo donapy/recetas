@@ -7,7 +7,7 @@ import axios from "axios";
 export const Navibar = (props) => {
   //const [isLogged, setIsLogged] = useState(props.isLogged.active);
   const navigate = useNavigate();
-  console.log(props.isLogged);
+  //console.log(props.isLogged);
   const handleClick = async () => {
     try {
       const result = await axios.get("http://localhost:8000/api/user/logOut", {

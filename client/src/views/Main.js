@@ -17,7 +17,7 @@ function Main() {
     //refetch,
   } = useQuery(["getLoggInfo"], async () => {
     let data = await fetchLogged();
-    console.log(data);
+    //console.log(data);
     return data;
   });
 

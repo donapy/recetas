@@ -1,12 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
-import { Button, Card, Badge } from "flowbite-react";
+import { Button, Card, Badge, Alert } from "flowbite-react";
 import Loading from "./Loading";
 import Navibar from "./Navbar";
+import { HiCheckCircle, HiInformationCircle } from "react-icons/hi";
 
 function ShowSearchRecipe() {
+  const [alerta, setAlerta] = useState(0);
+  const [disable, setDisable] = useState(false);
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -16,7 +19,7 @@ function ShowSearchRecipe() {
     //refetch,
   } = useQuery(["getLoggInfo"], async () => {
     let data = await fetchLogged();
-    console.log(data);
+    //console.log(data);
     return data;
   });
 
@@ -63,11 +66,18 @@ function ShowSearchRecipe() {
         { withCredentials: true }
       );
       if (result.status === 200) {
-        alert("Added Recipe to Favorites");
-        navigate("/saved-recipes");
+        // alert("Added Recipe to Favorites");
+        // navigate("/saved-recipes");
+        setAlerta(200);
+
+        setDisable(true);
+
+        setTimeout(() => {
+          navigate(`/saved-recipes`);
+        }, 2000);
       }
     } catch (error) {
-      console.log(error);
+      setAlerta(404);
     }
   };
 
@@ -127,11 +137,32 @@ function ShowSearchRecipe() {
             </ul>
           </Badge>
         </div>
+        {alerta === 0 ? (
+          <div></div>
+        ) : alerta === 200 ? (
+          <Alert color="success" icon={HiCheckCircle} withBorderAccent={true}>
+            <span>
+              <span className="font-medium"> Added Recipe to Favorites ! </span>
+              You will be redirected ...
+            </span>
+          </Alert>
+        ) : (
+          <>
+            <div></div>
+            <Alert color="failure" icon={HiInformationCircle}>
+              <span>
+                <span className="font-medium">
+                  Something went wrong, try again!
+                </span>
+              </span>
+            </Alert>
+          </>
+        )}
+
         {logged.active === true && (
           <Button
             color="success"
             className="lg:w-1/3 mx-auto"
-            //onClick={() => Navigate("/my-recipes/Favorite/" + id)}
             onClick={handleAddFav}
           >
             Save Recipe
