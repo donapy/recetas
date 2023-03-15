@@ -199,7 +199,7 @@ const getSavedRecipes = asyncHandler(async (req, res) => {
       email: 0,
     }).populate("savedrecipes");
     //console.log(`id: ${iduser}\nUserData: ${user}`);
-    res.status(200).json(user);
+    res.status(200).json(user.savedrecipes);
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Internal Error" });
