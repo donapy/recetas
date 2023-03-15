@@ -9,6 +9,7 @@ import NewRecipe from "./views/NewRecipe";
 import EditRecipe from "./views/EditRecipe";
 import Register from "./components/Register";
 import Login from "./components/Login";
+import ShowSearchRecipe from "./components/ShowSearchRecipe";
 
 function App() {
   const client = new QueryClient({
@@ -35,6 +36,7 @@ function App() {
           {/* // page to create a new recipe -view */}
           <Route path="/my-recipes/edit/:id" element={<EditRecipe />} />
           {/* // page to edit a recipe - view */}
+          <Route path="/recipeSearch/:id" element={<ShowSearchRecipe />} />
         </Routes>
       </BrowserRouter>
     </QueryClientProvider>
