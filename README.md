@@ -1,14 +1,28 @@
 # Cauldron Cuisine - MERN
 Grupo:
-- Dahiana Orue
-- Divina Benitez
-- Diana Coronel
-- Donato Garcia
+- Dahiana Orue / Front-End
+- Divina Benitez / Front-End
+- Diana Coronel / Front-End 
+- Donato Garcia / Back-End
 
 
 ## Wireframe del proyecto:
 
 https://www.figma.com/file/GBXyndw40CSfYQiCfbE2WY/Cooking-Site-Wireframe?node-id=0%3A1&t=giwIKZTexoi789xS-1
+
+## FrontEnd
+
+Se utilizó las siguientes liberias:
+
+1. @tanstack/react-query
+2. axios
+3. flowbite
+4. flowbite-react
+5. match-sorter
+6. react-router-dom
+7. react-tag-input
+8. react-tagsinput
+9. react-loading
 
 
 ## BackEnd
@@ -21,7 +35,6 @@ Se utilizo las siguientes librerias:
 5. Express y express async handler
 6. JWT
 7. Mongoose
-8. Multer
 
 
 ### Las rutas del backend son las siguientes
