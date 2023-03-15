@@ -101,7 +101,7 @@ const newRecipe2 = asyncHandler(async (req, res) => {
 // @access  Public
 const getRecipes = asyncHandler(async (req, res) => {
   try {
-    const recipes = await Recipe.find().populate("user");
+    const recipes = await Recipe.find().populate("user", "name");
     res.status(200).json(recipes);
   } catch (error) {
     console.log(error);
@@ -114,7 +114,10 @@ const getRecipes = asyncHandler(async (req, res) => {
 // @access  Public
 const getRecipe = asyncHandler(async (req, res) => {
   try {
-    const recipe = await Recipe.find({ _id: req.params.id }).populate("user");
+    const recipe = await Recipe.find({ _id: req.params.id }).populate(
+      "user",
+      "name"
+    );
 
     if (recipe) {
       res.status(200).json(recipe);
@@ -206,7 +209,7 @@ const getLikeRecipes = asyncHandler(async (req, res) => {
     // console.log(search);
     const recipes = await Recipe.find({
       name: { $regex: search, $options: "i" },
-    }).populate("user");
+    }).populate("user", "name");
     res.status(200).json(recipes);
   } catch (error) {
     console.log(error);

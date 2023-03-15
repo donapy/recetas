@@ -191,9 +191,14 @@ const logOut = asyncHandler(async (req, res) => {
 // @access  Private
 const getSavedRecipes = asyncHandler(async (req, res) => {
   try {
-    const { id } = req.user;
-    const user = await User.findById(id).populate("savedrecipes");
-    console.log(`id: ${id}\nUserData: ${user}`);
+    const iduser = req.user._id;
+    const user = await User.findById(iduser, {
+      _id: 0,
+      name: 0,
+      password: 0,
+      email: 0,
+    }).populate("savedrecipes");
+    //console.log(`id: ${iduser}\nUserData: ${user}`);
     res.status(200).json(user);
   } catch (error) {
     console.log(error);
@@ -206,18 +211,60 @@ const getSavedRecipes = asyncHandler(async (req, res) => {
 // @access  Private
 const saveNewRecipe = asyncHandler(async (req, res) => {
   try {
-    const { id } = req.user;
-    const user = await User.findById(id, { id: 0, password: 0 });
-    user.savedrecipes.push(req.id);
-    const updatedUser = await User.findByIdAndUpdate(id, user, {
-      new: true,
-    });
-    if (updatedUser) {
-      res.status(200).json({ message: "Saved Recipe" });
+    const iduser = req.user._id;
+    //console.log(iduser);
+    const user = await User.findById(iduser, { id: 0, password: 0 });
+    if (user.savedrecipes.includes(req.body.id)) {
+      res.status(200).json({ message: "Recipe is already saved" });
+    } else {
+      user.savedrecipes.push(req.body.id);
+      //console.log(user);
+      const updatedUser = await User.findByIdAndUpdate(iduser, user, {
+        new: true,
+      });
+      if (updatedUser) {
+        res.status(200).json({ message: "Saved Recipe" });
+      } else {
+        res.status(400).json({
+          message: "Error trying to save the Recipe",
+        });
+      }
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Internal Error" });
+  }
+});
+
+// @desc    deleteSavedRecipe User
+// @route   POST /api/user/deleteSavedRecipe
+// @access  Private
+const deleteSavedRecipe = asyncHandler(async (req, res) => {
+  try {
+    const iduser = req.user._id;
+    //console.log(iduser);
+    const user = await User.findById(iduser, { id: 0, password: 0 });
+    if (user.savedrecipes.includes(req.body.id)) {
+      let newArr = [];
+      for (let i = 0; i < user.savedrecipes.length; i++) {
+        if (req.body.id != user.savedrecipes[i]) {
+          newArr.push(user.savedrecipes[i]);
+        }
+      }
+      user.savedrecipes = newArr;
+      const updatedUser = await User.findByIdAndUpdate(iduser, user, {
+        new: true,
+      });
+      if (updatedUser) {
+        res.status(200).json({ message: "Saved Recipe was deleted" });
+      } else {
+        res.status(400).json({
+          message: "Error trying to delete the saved recipe",
+        });
+      }
     } else {
       res.status(400).json({
-        message: "Error trying to updated the user",
-        error: updatedUser,
+        message: "The user doesnt have this recipe saved",
       });
     }
   } catch (error) {
@@ -244,4 +291,5 @@ module.exports = {
   logOut,
   getSavedRecipes,
   saveNewRecipe,
+  deleteSavedRecipe,
 };
