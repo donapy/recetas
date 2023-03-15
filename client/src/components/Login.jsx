@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {Label, TextInput, Button, Toast, Card} from "flowbite-react";
 import full from "../assets/full.png";
+import wide from "../assets/wide.png";
 import axios from "axios";
 import {HiExclamation} from "react-icons/hi";
 
@@ -63,14 +64,19 @@ const Login = () => {
 
   return (
     <>
-      <div className="flex items-center h-screen mx-auto py-auto">
-        <div className="w-1/2">
+      <div class="flex flex-col md:flex-row items-center h-screen mx-auto py-auto">
+        <div class="w-full md:w-1/2">
           <div className="w-2/3 mx-auto ">
-            <img src={full} alt="logo" />
+            <img
+              className="hidden w-full mx-auto md:block"
+              src={full}
+              alt="logo"
+            />
+            <img className="w-full mx-auto md:hidden" src={wide} alt="logo" />
           </div>
         </div>
-        <div className="w-1/2 mx-auto">
-          <Card className="max-w-sm text-center">
+        <div class="md:w-full lg:w-1/2 mx-auto">
+          <Card className="md:w-2/3 lg:max-w-sm text-center">
             <form onSubmit={handleSubmit}>
               <h1 className="text-2xl font-bold text-center my-4">Log In</h1>
               <div className="text-1xl pb-2">
