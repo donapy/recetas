@@ -8,11 +8,33 @@ import Navibar from "./Navbar";
 import { HiCheckCircle, HiInformationCircle } from "react-icons/hi";
 
 function ShowSearchRecipe() {
+  const [alerta, setAlerta] = useState(0);
+  const [disable, setDisable] = useState(false);
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const [alerta, setAlerta] = useState(0);
-  const [disable, setDisable] = React.useState(false);
+  const {
+    data: logged,
+    //isError,
+    //refetch,
+  } = useQuery(["getLoggInfo"], async () => {
+    let data = await fetchLogged();
+    //console.log(data);
+    return data;
+  });
+
+  const fetchLogged = async () => {
+    try {
+      const result = await axios.get(
+        "http://localhost:8000/api/user/isLogged",
+        { withCredentials: true }
+      );
+      //console.log(`InfoLogged: ${result.data}`);
+      return result.data;
+    } catch (error) {
+      return { active: false };
+    }
+  };
 
   const {
     data: recipe,
@@ -51,8 +73,8 @@ function ShowSearchRecipe() {
         setDisable(true);
 
         setTimeout(() => {
-          navigate(`/`);
-        }, 3000);
+          navigate(`/saved-recipes`);
+        }, 2000);
       }
     } catch (error) {
       setAlerta(404);
@@ -65,7 +87,9 @@ function ShowSearchRecipe() {
 
   return (
     <>
-      <Navibar />
+      <Navibar isLogged={logged} />
+      <br />
+      <br />
       <Card className="max-w-screen-md mx-auto mt-3">
         <h1 className="mb-2 text-3xl font-bold text-gray-900 dark:text-white text-center">
           {recipe.name}
@@ -113,13 +137,12 @@ function ShowSearchRecipe() {
             </ul>
           </Badge>
         </div>
-
         {alerta === 0 ? (
           <div></div>
         ) : alerta === 200 ? (
           <Alert color="success" icon={HiCheckCircle} withBorderAccent={true}>
             <span>
-              <span className="font-medium"> Added Recipe to Favorites ! </span>{" "}
+              <span className="font-medium"> Added Recipe to Favorites ! </span>
               You will be redirected ...
             </span>
           </Alert>
@@ -129,7 +152,6 @@ function ShowSearchRecipe() {
             <Alert color="failure" icon={HiInformationCircle}>
               <span>
                 <span className="font-medium">
-                  {" "}
                   Something went wrong, try again!
                 </span>
               </span>
@@ -137,15 +159,15 @@ function ShowSearchRecipe() {
           </>
         )}
 
-        <Button
-          color="success"
-          className="lg:w-1/3 mx-auto"
-          //onClick={() => Navigate("/my-recipes/Favorite/" + id)}
-          onClick={handleAddFav}
-          disabled={disable}
-        >
-          Save Recipe
-        </Button>
+        {logged.active === true && (
+          <Button
+            color="success"
+            className="lg:w-1/3 mx-auto"
+            onClick={handleAddFav}
+          >
+            Save Recipe
+          </Button>
+        )}
       </Card>
     </>
   );

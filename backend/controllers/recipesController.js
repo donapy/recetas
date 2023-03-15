@@ -1,6 +1,7 @@
 const asyncHandler = require("express-async-handler");
 const Recipe = require("../models/recipes.model");
 const upload = require("../configs/multer.config");
+const UserM = require("../models/users.model");
 
 // @desc    New Recipe with Multer
 // @route   GET /api/recipe/newRecipe
@@ -136,7 +137,7 @@ const getRecipe = asyncHandler(async (req, res) => {
 const getMyRecipes = asyncHandler(async (req, res) => {
   try {
     const iduser = req.user._id;
-    console.log(iduser);
+    //console.log(iduser);
     const recipe = await Recipe.find({ user: iduser });
 
     if (recipe) {
@@ -184,14 +185,21 @@ const updateRecipe = asyncHandler(async (req, res) => {
 // @access  Private
 const deleteRecipe = asyncHandler(async (req, res) => {
   try {
-    const recipe = await Recipe.findById({ _id: req.params.id });
-    if (!recipe) {
-      res.status(400).json({ message: "Recipe not found" });
+    const users = await UserM.find({ savedrecipes: { $in: [req.params.id] } });
+    if (users.length > 0) {
+      res.status(400).json({
+        message:
+          "An user have this recipe on his Saved Recipes, cannot be deleted",
+      });
+    } else {
+      const recipe = await Recipe.findById({ _id: req.params.id });
+      if (!recipe) {
+        res.status(400).json({ message: "Recipe not found" });
+      } else {
+        await recipe.deleteOne({ _id: req.params.id });
+        res.status(200).json({ id: req.params });
+      }
     }
-    //console.log("TRUEEE");
-    await recipe.deleteOne({ _id: req.params.id });
-
-    res.status(200).json({ id: req.params });
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Internal Error" });

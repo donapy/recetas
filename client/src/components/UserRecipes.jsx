@@ -4,29 +4,56 @@ import axios from "axios";
 import { Card, Button } from "flowbite-react";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
 import { Modal } from "flowbite-react";
+import { useQuery } from "@tanstack/react-query";
+import Loading from "./Loading";
 
 const UserRecipes = () => {
-  const [recipes, setRecipes] = useState([]);
+  //const [recipes, setRecipes] = useState([]);
 
   const [disable, setDisable] = useState(false);
   const [setAlerta] = useState(0);
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    axios
-      .get("http://localhost:8000/api/recipe/getMyRecipes/", {
-        withCredentials: true,
-      })
-      .then((response) => {
-        // if (response.data.deleteStatus !== true) {
-        setRecipes(response.data);
-        // }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
+  // useEffect(() => {
+  //   axios
+  //     .get("http://localhost:8000/api/recipe/getMyRecipes/", {
+  //       withCredentials: true,
+  //     })
+  //     .then((response) => {
+  //       // if (response.data.deleteStatus !== true) {
+  //       setRecipes(response.data);
+  //       // }
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // }, []);
+
+  const {
+    data: recipes,
+    isLoading,
+    refetch,
+  } = useQuery(["listUserRecipes"], async () => {
+    let data = await fetchListaRecipes();
+    //console.log(data);
+    return data;
+  });
+
+  const fetchListaRecipes = async () => {
+    try {
+      const result = await axios.get(
+        "http://localhost:8000/api/recipe/getMyRecipes/",
+        {
+          withCredentials: true,
+        }
+      );
+      // console.log(`Datos: ${result.data}`);
+      return result.data;
+    } catch (error) {
+      return error;
+    }
+  };
 
   const handleDelete = async (id) => {
     // let confirm = window.confirm(
@@ -39,18 +66,20 @@ const UserRecipes = () => {
         { withCredentials: true }
       );
       if (response.status === 200) {
-        setRecipes(recipes.filter((recipe) => recipe._id !== id));
+        //setRecipes(recipes.filter((recipe) => recipe._id !== id));
         // response.data.deleteStatus = true;
+        refetch();
         // alert("Recipe deleted");
         setDisable(false);
 
         setAlerta(200);
 
-        setTimeout(() => {
-          navigate(`/`);
-        }, 1500);
+        // setTimeout(() => {
+        //   navigate(`/`);
+        // }, 1500);
       }
     } catch (error) {
+      modal("Cancelar");
       error.response && alert(error.response.data.message);
     }
     // }
@@ -59,6 +88,10 @@ const UserRecipes = () => {
   const modal = (valor) => {
     valor === "Cancelar" ? setDisable(false) : setDisable(true);
   };
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <div className="max-w-lg items-center mx-auto">
@@ -71,10 +104,11 @@ const UserRecipes = () => {
             alt={recipe.name}
             className="my-4"
           >
-            <h2 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-              {recipe.name}
-            </h2>
-
+            <Link to={`/recipes/${recipe._id}`}>
+              <h2 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                {recipe.name}
+              </h2>
+            </Link>
             <p className="font-normal text-gray-700 dark:text-gray-400">
               Principal Ingredients:
               <span className="font-bold">

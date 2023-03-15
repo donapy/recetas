@@ -1,7 +1,7 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import axios from "axios";
-import {useNavigate} from "react-router-dom";
-import {Label, TextInput, Button, Card} from "flowbite-react";
+import { useNavigate } from "react-router-dom";
+import { Label, TextInput, Button, Card } from "flowbite-react";
 import full from "../assets/full.png";
 import wide from "../assets/wide.png";
 
@@ -16,7 +16,7 @@ const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const newUser = {name, email, password, confirmPassword};
+    const newUser = { name, email, password, confirmPassword };
     await axios
       .post(
         "http://localhost:8000/api/user/newUsuario",
@@ -40,9 +40,10 @@ const Register = () => {
         <div class="w-full md:w-1/2">
           <div className="w-2/3 mx-auto ">
             <img
-              className="hidden w-full mx-auto md:block"
+              className="hidden w-full mx-auto md:block cursor-pointer"
               src={full}
               alt="logo"
+              onClick={() => navigate("/")}
             />
             <img className="w-full mx-auto md:hidden" src={wide} alt="logo" />
           </div>

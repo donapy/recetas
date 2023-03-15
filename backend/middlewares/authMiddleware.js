@@ -6,7 +6,7 @@ const protect = asyncHandler(async (req, res, next) => {
   let token = req.headers.cookie;
   //console.log(req.headers.cookie);
 
-  console.log(token);
+  //console.log(token);
   if (token !== undefined) {
     try {
       token = req.headers.cookie.split("token=")[1];

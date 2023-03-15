@@ -80,25 +80,25 @@ const SavedByUser = () => {
       <div className="max-w-lg items-center mx-auto">
         {recipes.map((recipe) => (
           <div key={recipe._id}>
-            <Link to={`/recipeSearch/${recipe._id}`}>
-              <Card
-                horizontal={true}
-                imgSrc={recipe.image}
-                alt={recipe.name}
-                className="my-4"
-              >
+            <Card
+              horizontal={true}
+              imgSrc={recipe.image}
+              alt={recipe.name}
+              className="my-4"
+            >
+              <Link to={`/recipeSearch/${recipe._id}`}>
                 <h2 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
                   {recipe.name}
                 </h2>
-
-                <p className="font-normal text-gray-700 dark:text-gray-400">
-                  Principal Ingredients:
-                  <br />
-                  <span className="font-bold">
-                    {recipe.importantIngredients.join(", ")}
-                  </span>
-                </p>
-                {/* <Rating>
+              </Link>
+              <p className="font-normal text-gray-700 dark:text-gray-400">
+                Principal Ingredients:
+                <br />
+                <span className="font-bold">
+                  {recipe.importantIngredients.join(", ")}
+                </span>
+              </p>
+              {/* <Rating>
                   <Rating.Star />
                   <p className="ml-2 text-sm font-bold text-gray-900 dark:text-white">
                     {recipe.rating}
@@ -111,14 +111,13 @@ const SavedByUser = () => {
                     no reviews yet
                   </a>
                 </Rating> */}
-                <Button
-                  color="failure"
-                  onClick={() => handleDeleteFav(recipe._id)}
-                >
-                  Remove Saved
-                </Button>
-              </Card>
-            </Link>
+              <Button
+                color="failure"
+                onClick={() => handleDeleteFav(recipe._id)}
+              >
+                Remove Saved
+              </Button>
+            </Card>
           </div>
         ))}
       </div>

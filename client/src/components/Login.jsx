@@ -33,8 +33,10 @@ const Login = () => {
     const validationErrors = {};
     if (!email) {
       validationErrors.email = { message: "Email is required" };
+      validationErrors.email = { message: "Email is required" };
     }
     if (!password) {
+      validationErrors.password = { message: "Password is required" };
       validationErrors.password = { message: "Password is required" };
     }
     if (Object.keys(validationErrors).length > 0) {
@@ -76,18 +78,19 @@ const Login = () => {
 
   return (
     <>
-      <div class="flex flex-col md:flex-row items-center h-screen mx-auto py-auto">
-        <div class="w-full md:w-1/2">
+      <div className="flex flex-col md:flex-row items-center h-screen mx-auto py-auto">
+        <div className="w-full md:w-1/2">
           <div className="w-2/3 mx-auto ">
             <img
-              className="hidden w-full mx-auto md:block"
+              className="hidden w-full mx-auto md:block cursor-pointer"
               src={full}
               alt="logo"
+              onClick={() => navigate("/")}
             />
             <img className="w-full mx-auto md:hidden" src={wide} alt="logo" />
           </div>
         </div>
-        <div class="md:w-full lg:w-1/2 mx-auto">
+        <div className="md:w-full lg:w-1/2 mx-auto">
           <Card className="md:w-2/3 lg:max-w-sm text-center">
             <form onSubmit={handleSubmit}>
               <h1 className="text-2xl font-bold text-center my-4">Log In</h1>
