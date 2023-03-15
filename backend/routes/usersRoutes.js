@@ -11,6 +11,7 @@ const {
   logOut,
   getSavedRecipes,
   saveNewRecipe,
+  deleteSavedRecipe,
 } = require("../controllers/usersController");
 
 const { protect } = require("../middlewares/authMiddleware");
@@ -34,5 +35,7 @@ router.get("/logOut", protect, logOut);
 router.get("/getSavedRecipes", protect, getSavedRecipes);
 
 router.post("/saveNewRecipe", protect, saveNewRecipe);
+
+router.post("/deleteSavedRecipe", protect, deleteSavedRecipe);
 
 module.exports = router;
