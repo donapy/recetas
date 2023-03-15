@@ -80,50 +80,45 @@ const SavedByUser = () => {
       <div className="max-w-lg items-center mx-auto">
         {recipes.map((recipe) => (
           <div key={recipe._id}>
-            <Card
-              horizontal={true}
-              imgSrc={recipe.image}
-              alt={recipe.name}
-              className="my-4"
-            >
-              {/* <Link to={`/recipes/${recipe._id}`}> */}
-              <h2 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-                {recipe.name}
-              </h2>
-              {/* </Link> */}
-              <p className="font-normal text-gray-700 dark:text-gray-400">
-                Principal Ingredients:
-                <br />
-                <span className="font-bold">
-                  {recipe.importantIngredients.join(", ")}
-                </span>
-              </p>
-              {/* <Rating>
-                <Rating.Star />
-                <p className="ml-2 text-sm font-bold text-gray-900 dark:text-white">
-                  {recipe.rating}
+            <Link to={`/recipeSearch/${recipe._id}`}>
+              <Card
+                horizontal={true}
+                imgSrc={recipe.image}
+                alt={recipe.name}
+                className="my-4"
+              >
+                <h2 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                  {recipe.name}
+                </h2>
+
+                <p className="font-normal text-gray-700 dark:text-gray-400">
+                  Principal Ingredients:
+                  <br />
+                  <span className="font-bold">
+                    {recipe.importantIngredients.join(", ")}
+                  </span>
                 </p>
-                <span className="mx-1.5 h-1 w-1 rounded-full bg-gray-500 dark:bg-gray-400" />
-                <a
-                  href="#"
-                  className="text-sm font-medium text-gray-900 underline hover:no-underline dark:text-white"
+                {/* <Rating>
+                  <Rating.Star />
+                  <p className="ml-2 text-sm font-bold text-gray-900 dark:text-white">
+                    {recipe.rating}
+                  </p>
+                  <span className="mx-1.5 h-1 w-1 rounded-full bg-gray-500 dark:bg-gray-400" />
+                  <a
+                    href="#"
+                    className="text-sm font-medium text-gray-900 underline hover:no-underline dark:text-white"
+                  >
+                    no reviews yet
+                  </a>
+                </Rating> */}
+                <Button
+                  color="failure"
+                  onClick={() => handleDeleteFav(recipe._id)}
                 >
-                  no reviews yet
-                </a>
-              </Rating> */}
-              <Button
-                color="success"
-                onClick={() => navigate(`/recipeSearch/${recipe._id}`)}
-              >
-                Go to Recipe
-              </Button>
-              <Button
-                color="success"
-                onClick={() => handleDeleteFav(recipe._id)}
-              >
-                Remove Favorite
-              </Button>
-            </Card>
+                  Remove Saved
+                </Button>
+              </Card>
+            </Link>
           </div>
         ))}
       </div>

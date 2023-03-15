@@ -108,7 +108,7 @@ function ShowSearchRecipe() {
           //onClick={() => Navigate("/my-recipes/Favorite/" + id)}
           onClick={handleAddFav}
         >
-          Add Favorite
+          Save Recipe
         </Button>
       </Card>
     </>
