@@ -11,6 +11,29 @@ function ShowSearchRecipe() {
   const navigate = useNavigate();
 
   const {
+    data: logged,
+    //isError,
+    //refetch,
+  } = useQuery(["getLoggInfo"], async () => {
+    let data = await fetchLogged();
+    console.log(data);
+    return data;
+  });
+
+  const fetchLogged = async () => {
+    try {
+      const result = await axios.get(
+        "http://localhost:8000/api/user/isLogged",
+        { withCredentials: true }
+      );
+      //console.log(`InfoLogged: ${result.data}`);
+      return result.data;
+    } catch (error) {
+      return { active: false };
+    }
+  };
+
+  const {
     data: recipe,
     isLoading,
     //isError,
@@ -54,7 +77,9 @@ function ShowSearchRecipe() {
 
   return (
     <>
-      <Navibar />
+      <Navibar isLogged={logged} />
+      <br />
+      <br />
       <Card className="max-w-screen-md mx-auto mt-3">
         <h1 className="mb-2 text-3xl font-bold text-gray-900 dark:text-white text-center">
           {recipe.name}
@@ -102,14 +127,16 @@ function ShowSearchRecipe() {
             </ul>
           </Badge>
         </div>
-        <Button
-          color="success"
-          className="lg:w-1/3 mx-auto"
-          //onClick={() => Navigate("/my-recipes/Favorite/" + id)}
-          onClick={handleAddFav}
-        >
-          Save Recipe
-        </Button>
+        {logged.active === true && (
+          <Button
+            color="success"
+            className="lg:w-1/3 mx-auto"
+            //onClick={() => Navigate("/my-recipes/Favorite/" + id)}
+            onClick={handleAddFav}
+          >
+            Save Recipe
+          </Button>
+        )}
       </Card>
     </>
   );

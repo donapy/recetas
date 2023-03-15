@@ -2,25 +2,52 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Card, Button, Rating } from "flowbite-react";
+import { useQuery } from "@tanstack/react-query";
+import Loading from "./Loading";
 
 const UserRecipes = () => {
-  const [recipes, setRecipes] = useState([]);
+  //const [recipes, setRecipes] = useState([]);
   // const Navigate = useNavigate();
 
-  useEffect(() => {
-    axios
-      .get("http://localhost:8000/api/recipe/getMyRecipes/", {
-        withCredentials: true,
-      })
-      .then((response) => {
-        // if (response.data.deleteStatus !== true) {
-        setRecipes(response.data);
-        // }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
+  // useEffect(() => {
+  //   axios
+  //     .get("http://localhost:8000/api/recipe/getMyRecipes/", {
+  //       withCredentials: true,
+  //     })
+  //     .then((response) => {
+  //       // if (response.data.deleteStatus !== true) {
+  //       setRecipes(response.data);
+  //       // }
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // }, []);
+
+  const {
+    data: recipes,
+    isLoading,
+    refetch,
+  } = useQuery(["listUserRecipes"], async () => {
+    let data = await fetchListaRecipes();
+    //console.log(data);
+    return data;
+  });
+
+  const fetchListaRecipes = async () => {
+    try {
+      const result = await axios.get(
+        "http://localhost:8000/api/recipe/getMyRecipes/",
+        {
+          withCredentials: true,
+        }
+      );
+      // console.log(`Datos: ${result.data}`);
+      return result.data;
+    } catch (error) {
+      return error;
+    }
+  };
 
   const handleDelete = async (id) => {
     let confirm = window.confirm(
@@ -33,15 +60,21 @@ const UserRecipes = () => {
           { withCredentials: true }
         );
         if (response.status === 200) {
-          setRecipes(recipes.filter((recipe) => recipe._id !== id));
+          //setRecipes(recipes.filter((recipe) => recipe._id !== id));
           // response.data.deleteStatus = true;
+
           alert("Recipe deleted");
+          refetch();
         }
       } catch (error) {
         error.response && alert(error.response.data.message);
       }
     }
   };
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <>
@@ -78,7 +111,10 @@ const UserRecipes = () => {
                     12 reviews
                   </a>
                 </Rating> */}
-                <Button color="failure" onClick={() => handleDelete(recipe._id)}>
+                <Button
+                  color="failure"
+                  onClick={() => handleDelete(recipe._id)}
+                >
                   Delete
                 </Button>
                 <Link to={`/my-recipes/edit/${recipe._id}`}>
@@ -90,7 +126,6 @@ const UserRecipes = () => {
             </Link>
           </div>
         ))}
-
       </div>
     </>
   );

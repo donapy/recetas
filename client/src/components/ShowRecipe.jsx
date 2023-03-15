@@ -28,12 +28,12 @@ function ShowRecipe() {
     isLoading,
     //isError,
   } = useQuery(["showRecipe"], async () => {
-    let data = await fetchListaUsuarios();
+    let data = await fetchListaRecipes();
     console.log(data);
     return data;
   });
 
-  const fetchListaUsuarios = async () => {
+  const fetchListaRecipes = async () => {
     try {
       const result = await axios.get(
         "http://localhost:8000/api/recipe/getRecipe/" + id

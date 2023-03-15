@@ -1,10 +1,10 @@
-import React, {useState} from "react";
-import {useNavigate} from "react-router-dom";
-import {Label, TextInput, Button, Toast, Card} from "flowbite-react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Label, TextInput, Button, Toast, Card } from "flowbite-react";
 import full from "../assets/full.png";
 import wide from "../assets/wide.png";
 import axios from "axios";
-import {HiExclamation} from "react-icons/hi";
+import { HiExclamation } from "react-icons/hi";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -15,7 +15,7 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const inputs = {email, password};
+    const inputs = { email, password };
     // axios
     //   .post("http://localhost:8000/api/login", user, {
     //     withCredentials: true,
@@ -25,10 +25,10 @@ const Login = () => {
 
     const validationErrors = {};
     if (!email) {
-      validationErrors.email = {message: "Email is required"};
+      validationErrors.email = { message: "Email is required" };
     }
     if (!password) {
-      validationErrors.password = {message: "Password is required"};
+      validationErrors.password = { message: "Password is required" };
     }
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
@@ -64,18 +64,19 @@ const Login = () => {
 
   return (
     <>
-      <div class="flex flex-col md:flex-row items-center h-screen mx-auto py-auto">
-        <div class="w-full md:w-1/2">
+      <div className="flex flex-col md:flex-row items-center h-screen mx-auto py-auto">
+        <div className="w-full md:w-1/2">
           <div className="w-2/3 mx-auto ">
             <img
-              className="hidden w-full mx-auto md:block"
+              className="hidden w-full mx-auto md:block cursor-pointer"
               src={full}
               alt="logo"
+              onClick={() => navigate("/")}
             />
             <img className="w-full mx-auto md:hidden" src={wide} alt="logo" />
           </div>
         </div>
-        <div class="md:w-full lg:w-1/2 mx-auto">
+        <div className="md:w-full lg:w-1/2 mx-auto">
           <Card className="md:w-2/3 lg:max-w-sm text-center">
             <form onSubmit={handleSubmit}>
               <h1 className="text-2xl font-bold text-center my-4">Log In</h1>

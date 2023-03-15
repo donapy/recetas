@@ -1,20 +1,33 @@
-import React, {useState} from "react";
-import {useNavigate} from "react-router-dom";
-import {Navbar} from "flowbite-react";
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import { Navbar } from "flowbite-react";
 import mini_wide from "../assets/mini_wide.png";
+import axios from "axios";
 
-export const Navibar = () => {
-  const [isLogged, setIsLogged] = useState(true);
+export const Navibar = (props) => {
+  //const [isLogged, setIsLogged] = useState(props.isLogged.active);
   const navigate = useNavigate();
+  console.log(props.isLogged);
+  const handleClick = async () => {
+    try {
+      const result = await axios.get("http://localhost:8000/api/user/logOut", {
+        withCredentials: true,
+      });
+      if (result.status === 200) {
+        //setIsLogged(false);
+        navigate("/login");
+      }
+    } catch (error) {
+      console.log(error);
+    }
 
-  function handleClick() {
-    setIsLogged(false);
-    setTimeout(() => {
-      navigate(`/`);
-    }, 2000);
-  }
+    // setIsLogged(false);
+    // setTimeout(() => {
+    //   navigate(`/`);
+    // }, 2000);
+  };
 
-  if (isLogged) {
+  if (props.isLogged.active === true) {
     return (
       <>
         {/* Logueado */}

@@ -140,7 +140,7 @@ const loginUser = asyncHandler(async (req, res) => {
         .cookie("token", token, {
           httpOnly: true,
           expires: new Date(
-            Date.now() + 1000 * 60 * 60 * parseInt(process.env.JWT_EXPIRES_IN)
+            Date.now() + 1500 * 60 * 60 * parseInt(process.env.JWT_EXPIRES_IN)
           ),
         })
         .json({
