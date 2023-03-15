@@ -1,10 +1,14 @@
-import React, {useState} from "react";
-import {useNavigate} from "react-router-dom";
-import {Label, TextInput, Button, Toast, Card} from "flowbite-react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Label, TextInput, Button, Toast, Card, Alert } from "flowbite-react";
 import full from "../assets/full.png";
 import wide from "../assets/wide.png";
 import axios from "axios";
-import {HiExclamation} from "react-icons/hi";
+import {
+  HiExclamation,
+  HiInformationCircle,
+  HiCheckCircle,
+} from "react-icons/hi";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -13,9 +17,12 @@ const Login = () => {
 
   const navigate = useNavigate();
 
+  const [alerta, setAlerta] = useState(0);
+  const [errorloguin, setErrorloguin] = useState("");
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const inputs = {email, password};
+    const inputs = { email, password };
     // axios
     //   .post("http://localhost:8000/api/login", user, {
     //     withCredentials: true,
@@ -25,10 +32,10 @@ const Login = () => {
 
     const validationErrors = {};
     if (!email) {
-      validationErrors.email = {message: "Email is required"};
+      validationErrors.email = { message: "Email is required" };
     }
     if (!password) {
-      validationErrors.password = {message: "Password is required"};
+      validationErrors.password = { message: "Password is required" };
     }
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
@@ -44,11 +51,16 @@ const Login = () => {
         }
       );
       if (result.status === 200) {
-        alert(`Login Successful`);
-        navigate("/");
+        setAlerta(200);
+
+        setTimeout(() => {
+          navigate(`/`);
+        }, 1500);
       }
     } catch (error) {
-      error.response && alert(error.response.data.message);
+      setAlerta(404);
+      setErrorloguin(error.response.data.message);
+      // error.response; //&& alert(error.response.data.message);
     }
     // setErrors({});
 
@@ -133,6 +145,23 @@ const Login = () => {
               >
                 Log In
               </Button>
+
+              {alerta === 0 ? (
+                <div></div>
+              ) : alerta === 200 ? (
+                <Alert color="success" icon={HiCheckCircle}>
+                  <span>
+                    <span className="font-medium">Login Successful!! </span> You
+                    will be redirected ...
+                  </span>
+                </Alert>
+              ) : (
+                <Alert color="failure" icon={HiInformationCircle}>
+                  <span>
+                    <span className="font-medium">{errorloguin}</span>
+                  </span>
+                </Alert>
+              )}
             </form>
           </Card>
         </div>
