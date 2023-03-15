@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {Navbar} from "flowbite-react";
-import icon from "../assets/icon.png";
+import mini_wide from "../assets/mini_wide.png";
 
 export const Navibar = () => {
   const [isLogged, setIsLogged] = useState(true);
@@ -20,10 +20,7 @@ export const Navibar = () => {
         {/* Logueado */}
         <Navbar fluid={true} rounded={false} className="my-navbar">
           <Navbar.Brand href="/">
-            <img src={icon} className="mr-3 icon" alt="CC icon" />
-            <span className="self-center whitespace-nowrap font-bold dark:text-white">
-              Cauldron Cuisine
-            </span>
+            <img src={mini_wide} className="mr-3 icon" alt="CC icon" />
           </Navbar.Brand>
           <Navbar.Toggle />
           <Navbar.Collapse>
@@ -49,10 +46,7 @@ export const Navibar = () => {
         {/* No Logueado */}
         <Navbar fluid={true} rounded={false} className="my-navbar">
           <Navbar.Brand href="/">
-            <img src={icon} className="mr-3 icon" alt="CC icon" />
-            <span className="self-center whitespace-nowrap font-bold dark:text-white">
-              Cauldron Cuisine
-            </span>
+            <img src={mini_wide} className="mr-3 icon" alt="CC icon" />
           </Navbar.Brand>
           <Navbar.Toggle />
           <Navbar.Collapse>

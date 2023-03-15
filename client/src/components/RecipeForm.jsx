@@ -92,6 +92,7 @@ const RecipeForm = () => {
             id="image"
             type="text"
             placeholder="Show us your food!"
+            required={true}
             onChange={(e) => setImage(e.target.value)}
           />
           {errors.image && (

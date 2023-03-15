@@ -178,7 +178,7 @@ const EditForm = () => {
                     <HiExclamation className="h-5 w-5" />
                   </div>
                   <div className="ml-3 text-sm font-bold">
-                    <p> Please tell us what makes your recipe magical. </p>
+                    <p> Tell us what makes your recipe magical. </p>
                   </div>
                   <Toast.Toggle />
                 </Toast>
