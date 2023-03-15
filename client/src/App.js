@@ -1,6 +1,6 @@
 import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import {BrowserRouter, Routes, Route} from "react-router-dom";
+import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
 import Main from "./views/Main";
 import Recipe from "./views/Recipe";
 import SavedRecipes from "./views/SavedRecipes";
