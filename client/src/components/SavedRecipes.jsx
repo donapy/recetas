@@ -1,34 +1,79 @@
 // this component is the main component in the saved recipes page. It is a child of the SavedRecipes component. It is responsible for displaying the saved recipes of the user.
-
-import {Link, useNavigate} from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import {Card, Button, Rating} from "flowbite-react";
+import { Card, Button, Rating } from "flowbite-react";
+import Loading from "./Loading";
 
 const SavedByUser = () => {
   // Mostrar todas las recetas guardadas por el usuario
-  const recipes = [
-    {
-      _id: 1,
-      name: "Pasta with tomato sauce",
-      image:
-        "https://img.buzzfeed.com/thumbnailer-prod-us-east-1/75c25eb5538b4b3c91fdf71e747c1e84/BFV44742_PantryPasta_FB_Final.jpg",
-      importantIngredients: ["pasta", "tomato sauce"],
-      rating: 4.5,
-    },
-    {
-      _id: 2,
-      name: "Ceasar salad",
-      image:
-        "https://amandacooksandstyles.com/wp-content/uploads/2021/04/20210329_173814.jpg",
-      importantIngredients: [
-        "lettuce",
-        "chicken",
-        "croutons",
-        "caesar dressing",
-      ],
-      rating: 4.3,
-    },
-  ];
+  const navigate = useNavigate();
+  const {
+    data: recipes,
+    isLoading,
+    //isError,
+    refetch,
+  } = useQuery(["showSavedRecipe"], async () => {
+    let data = await fetchSavedRecipe();
+    console.log(data);
+    return data;
+  });
+
+  const fetchSavedRecipe = async () => {
+    try {
+      const result = await axios.get(
+        "http://localhost:8000/api/user/getSavedRecipes",
+        { withCredentials: true }
+      );
+      // console.log(`Datos: ${result.data}`);
+      return result.data;
+    } catch (error) {
+      return error;
+    }
+  };
+
+  const handleDeleteFav = async (id) => {
+    try {
+      const result = await axios.post(
+        "http://localhost:8000/api/user/deleteSavedRecipe",
+        { id },
+        { withCredentials: true }
+      );
+      if (result.status === 200) {
+        refetch();
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  if (isLoading) {
+    return <Loading />;
+  }
+
+  // const recipes = [
+  //   {
+  //     _id: 1,
+  //     name: "Pasta with tomato sauce",
+  //     image:
+  //       "https://img.buzzfeed.com/thumbnailer-prod-us-east-1/75c25eb5538b4b3c91fdf71e747c1e84/BFV44742_PantryPasta_FB_Final.jpg",
+  //     importantIngredients: ["pasta", "tomato sauce"],
+  //     rating: 4.5,
+  //   },
+  //   {
+  //     _id: 2,
+  //     name: "Ceasar salad",
+  //     image:
+  //       "https://amandacooksandstyles.com/wp-content/uploads/2021/04/20210329_173814.jpg",
+  //     importantIngredients: [
+  //       "lettuce",
+  //       "chicken",
+  //       "croutons",
+  //       "caesar dressing",
+  //     ],
+  //     rating: 4.3,
+  //   },
+  // ];
 
   return (
     <>
@@ -41,18 +86,19 @@ const SavedByUser = () => {
               alt={recipe.name}
               className="my-4"
             >
-              <Link to={`/recipes/${recipe._id}`}>
-                <h2 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-                  {recipe.name}
-                </h2>
-              </Link>
+              {/* <Link to={`/recipes/${recipe._id}`}> */}
+              <h2 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                {recipe.name}
+              </h2>
+              {/* </Link> */}
               <p className="font-normal text-gray-700 dark:text-gray-400">
                 Principal Ingredients:
+                <br />
                 <span className="font-bold">
                   {recipe.importantIngredients.join(", ")}
                 </span>
               </p>
-              <Rating>
+              {/* <Rating>
                 <Rating.Star />
                 <p className="ml-2 text-sm font-bold text-gray-900 dark:text-white">
                   {recipe.rating}
@@ -64,9 +110,18 @@ const SavedByUser = () => {
                 >
                   no reviews yet
                 </a>
-              </Rating>
-              <Button color="success" onClick="#">
+              </Rating> */}
+              <Button
+                color="success"
+                onClick={() => navigate(`/recipeSearch/${recipe._id}`)}
+              >
                 Go to Recipe
+              </Button>
+              <Button
+                color="success"
+                onClick={() => handleDeleteFav(recipe._id)}
+              >
+                Remove Favorite
               </Button>
             </Card>
           </div>

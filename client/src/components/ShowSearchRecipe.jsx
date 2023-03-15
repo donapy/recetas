@@ -1,4 +1,3 @@
-
 import React from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -9,20 +8,19 @@ import Navibar from "./Navbar";
 
 function ShowSearchRecipe() {
   const { id } = useParams();
-  const Navigate = useNavigate();
-
+  const navigate = useNavigate();
 
   const {
     data: recipe,
     isLoading,
     //isError,
   } = useQuery(["showRecipe"], async () => {
-    let data = await fetchListaUsuarios();
+    let data = await fetchListRecipes();
     console.log(data);
     return data;
   });
 
-  const fetchListaUsuarios = async () => {
+  const fetchListRecipes = async () => {
     try {
       const result = await axios.get(
         "http://localhost:8000/api/recipe/getRecipe/" + id
@@ -31,6 +29,22 @@ function ShowSearchRecipe() {
       return result.data[0];
     } catch (error) {
       return error;
+    }
+  };
+
+  const handleAddFav = async () => {
+    try {
+      const result = await axios.post(
+        "http://localhost:8000/api/user/saveNewRecipe",
+        { id },
+        { withCredentials: true }
+      );
+      if (result.status === 200) {
+        alert("Added Recipe to Favorites");
+        navigate("/saved-recipes");
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -46,7 +60,9 @@ function ShowSearchRecipe() {
           {recipe.name}
         </h1>
         <img src={recipe.image} alt={recipe.name} className="rounded-lg" />
-        <p className="font-bold text-lg">Servings: {recipe.portions} portions</p>
+        <p className="font-bold text-lg">
+          Servings: {recipe.portions} portions
+        </p>
         <p className="font-bold text-lg">
           Cooking Time: {recipe.cookingTime} minutes
         </p>
@@ -89,9 +105,10 @@ function ShowSearchRecipe() {
         <Button
           color="success"
           className="lg:w-1/3 mx-auto"
-          onClick={() => Navigate("/my-recipes/Favorite/" + id)}
+          //onClick={() => Navigate("/my-recipes/Favorite/" + id)}
+          onClick={handleAddFav}
         >
-          Favorite
+          Add Favorite
         </Button>
       </Card>
     </>
