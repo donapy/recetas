@@ -1,12 +1,14 @@
-import React, { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import React, {useState, useEffect} from "react";
+import {useParams, useNavigate} from "react-router-dom";
 import axios from "axios";
-import { Label, TextInput, Button, Card, Textarea } from "flowbite-react";
+import {Label, TextInput, Button, Card, Textarea, Toast} from "flowbite-react";
+import {HiExclamation} from "react-icons/hi";
 
 const EditForm = () => {
-  const { id } = useParams();
+  const {id} = useParams();
   const [recipe, setRecipe] = useState();
   const Navigate = useNavigate();
+  const [errors, setErrors] = useState({});
 
   useEffect(() => {
     axios
@@ -32,8 +34,8 @@ const EditForm = () => {
         Navigate("/");
       })
       .catch((err) => {
-        console.log("Error updating recipe!");
-        console.log(err);
+        console.log(err.response.data);
+        setErrors(err.response.data.errors);
       });
   };
 
@@ -50,10 +52,22 @@ const EditForm = () => {
                 id="name"
                 type="text"
                 value={recipe.name}
+                required={true}
                 onChange={(event) =>
-                  setRecipe({ ...recipe, name: event.target.value })
+                  setRecipe({...recipe, name: event.target.value})
                 }
               />
+              {errors.name && (
+                <Toast>
+                  <div className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-orange-100 text-orange-500 dark:bg-orange-700 dark:text-orange-200">
+                    <HiExclamation className="h-5 w-5" />
+                  </div>
+                  <div className="ml-3 text-sm font-bold">
+                    {errors.name.message}
+                  </div>
+                  <Toast.Toggle />
+                </Toast>
+              )}
             </div>
             <div className="text-1xl pb-2">
               <div className="mb-1 block">
@@ -63,10 +77,22 @@ const EditForm = () => {
                 id="image"
                 type="text"
                 value={recipe.image}
+                required={true}
                 onChange={(event) =>
-                  setRecipe({ ...recipe, image: event.target.value })
+                  setRecipe({...recipe, image: event.target.value})
                 }
               />
+              {errors.image && (
+                <Toast>
+                  <div className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-orange-100 text-orange-500 dark:bg-orange-700 dark:text-orange-200">
+                    <HiExclamation className="h-5 w-5" />
+                  </div>
+                  <div className="ml-3 text-sm font-bold">
+                    <p>Please show us your creation</p>
+                  </div>
+                  <Toast.Toggle />
+                </Toast>
+              )}
             </div>
             <div className="text-1xl pb-2">
               <div className="mb-1 block">
@@ -80,10 +106,22 @@ const EditForm = () => {
                 id="portions"
                 type="number"
                 value={recipe.portions}
+                required={true}
                 onChange={(event) =>
-                  setRecipe({ ...recipe, portions: event.target.value })
+                  setRecipe({...recipe, portions: event.target.value})
                 }
               />
+              {errors.portions && (
+                <Toast>
+                  <div className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-orange-100 text-orange-500 dark:bg-orange-700 dark:text-orange-200">
+                    <HiExclamation className="h-5 w-5" />
+                  </div>
+                  <div className="ml-3 text-sm font-bold">
+                    <p> This field is required </p>
+                  </div>
+                  <Toast.Toggle />
+                </Toast>
+              )}
             </div>
             <div className="text-1xl pb-2">
               <div className="mb-1 block">
@@ -97,10 +135,22 @@ const EditForm = () => {
                 id="cookingTime"
                 type="number"
                 value={recipe.cookingTime}
+                required={true}
                 onChange={(event) =>
-                  setRecipe({ ...recipe, cookingTime: event.target.value })
+                  setRecipe({...recipe, cookingTime: event.target.value})
                 }
               />
+              {errors.cookingTime && (
+                <Toast>
+                  <div className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-orange-100 text-orange-500 dark:bg-orange-700 dark:text-orange-200">
+                    <HiExclamation className="h-5 w-5" />
+                  </div>
+                  <div className="ml-3 text-sm font-bold">
+                    {errors.cookingTime.message}
+                  </div>
+                  <Toast.Toggle />
+                </Toast>
+              )}
             </div>
             <div className="text-1xl pb-2">
               <div className="mb-1 block">
@@ -114,6 +164,7 @@ const EditForm = () => {
                 id="importantIngredients"
                 type="text"
                 value={recipe.importantIngredients}
+                required={true}
                 onChange={(event) =>
                   setRecipe({
                     ...recipe,
@@ -121,6 +172,17 @@ const EditForm = () => {
                   })
                 }
               />
+              {errors.importantIngredients && (
+                <Toast>
+                  <div className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-orange-100 text-orange-500 dark:bg-orange-700 dark:text-orange-200">
+                    <HiExclamation className="h-5 w-5" />
+                  </div>
+                  <div className="ml-3 text-sm font-bold">
+                    <p> Please tell us what makes your recipe magical. </p>
+                  </div>
+                  <Toast.Toggle />
+                </Toast>
+              )}
             </div>
             <div className="text-1xl pb-2">
               <div className="mb-1 block">
@@ -134,6 +196,7 @@ const EditForm = () => {
                 id="secondaryIngredients"
                 type="text"
                 value={recipe.secondaryIngredients}
+                required={true}
                 onChange={(event) =>
                   setRecipe({
                     ...recipe,
@@ -141,6 +204,17 @@ const EditForm = () => {
                   })
                 }
               />
+              {errors.secondaryIngredients && (
+                <Toast>
+                  <div className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-orange-100 text-orange-500 dark:bg-orange-700 dark:text-orange-200">
+                    <HiExclamation className="h-5 w-5" />
+                  </div>
+                  <div className="ml-3 text-sm font-bold">
+                    <p> Salt, pepper, etc. </p>
+                  </div>
+                  <Toast.Toggle />
+                </Toast>
+              )}
             </div>
             <div className="text-1xl pb-2">
               <div className="mb-1 block">
@@ -154,10 +228,22 @@ const EditForm = () => {
                 id="steps"
                 type="text"
                 value={recipe.steps}
+                required={true}
                 onChange={(event) =>
-                  setRecipe({ ...recipe, steps: event.target.value })
+                  setRecipe({...recipe, steps: event.target.value})
                 }
               />
+              {errors.steps && (
+                <Toast>
+                  <div className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-orange-100 text-orange-500 dark:bg-orange-700 dark:text-orange-200">
+                    <HiExclamation className="h-5 w-5" />
+                  </div>
+                  <div className="ml-3 text-sm font-bold">
+                    <p> Please tell us how to make it! </p>
+                  </div>
+                  <Toast.Toggle />
+                </Toast>
+              )}
             </div>
             <div className="text-1xl pb-2">
               <div className="mb-1 block">
@@ -168,7 +254,7 @@ const EditForm = () => {
                 type="text"
                 value={recipe.tags}
                 onChange={(event) =>
-                  setRecipe({ ...recipe, tags: event.target.value })
+                  setRecipe({...recipe, tags: event.target.value})
                 }
               />
             </div>
