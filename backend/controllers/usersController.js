@@ -10,7 +10,7 @@ const User = require("../models/users.model");
 const getUser = asyncHandler(async (req, res) => {
   try {
     const { id } = req.user;
-    console.log(id);
+    //console.log(id);
     const user = await User.find(id, { password: 0 });
 
     if (user) {
@@ -83,7 +83,7 @@ const newUser = asyncHandler(async (req, res) => {
 const updateUser = asyncHandler(async (req, res) => {
   try {
     const { id } = req.user;
-    console.log(id);
+    //console.log(id);
     const user = await User.findById(id, { password: 0 });
 
     if (!user) {
@@ -107,7 +107,7 @@ const updateUser = asyncHandler(async (req, res) => {
 const deleteUser = asyncHandler(async (req, res) => {
   try {
     const { id } = req.user;
-    console.log(id);
+    //console.log(id);
     const user = await User.findById(id);
 
     if (!user) {
