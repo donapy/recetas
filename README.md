@@ -16,17 +16,21 @@ El frontend tambien cuenta con rutas protegidas a traves del token que almacena 
 A continuacion se puede observar las rutas protegidas y no protegidas:
 
 ### Rutas Protegidas
-http://host:port/my-recipes
-http://host:port/recipes/:id
-http://host:port/recipes/new
-http://host:port/saved-recipes
-http://host:port/my-recipes/edit/:id
+```
+host:port/my-recipes
+host:port/recipes/:id
+host:port/recipes/new
+host:port/saved-recipes
+host:port/my-recipes/edit/:id
+```
 
 ### Rutas No Protegidas
-http://host:port/
-http://host:port/login
-http://host:port/register
-http://host:port/recipeSearch/:id
+```
+host:port/
+host:port/login
+host:port/register
+host:port/recipeSearch/:id
+```
 
 ## Wireframe del proyecto:
 
