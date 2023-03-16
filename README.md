@@ -13,7 +13,6 @@ Un usuario registrado puede ver, crear, guardar, editar y eliminar recetas, pero
 Cada formulario cuenta con validaciones tanto en el frontend como en el backend, ademas de que el frontend es responsive.
 El frontend tambien cuenta con rutas protegidas a traves del token que almacena la cookie, esto quiere decir que el token que almacena el cookie tiene que ser uno valido.
 
-A continuacion se puede observar las rutas protegidas y no protegidas:
 
 ### Rutas Protegidas
 ```
@@ -39,6 +38,7 @@ https://www.figma.com/file/GBXyndw40CSfYQiCfbE2WY/Cooking-Site-Wireframe?node-id
 
 ---------
 
+
 ## FrontEnd
 
 Para iniciar el frontend, es necesario ubicarse en la carpeta **client** y ejecutar el siguiente comando:
@@ -55,6 +55,7 @@ Para iniciar el frontend, es necesario ubicarse en la carpeta **client** y ejecu
 7. react-tag-input
 8. react-tagsinput
 9. react-loading
+
 
 
 
